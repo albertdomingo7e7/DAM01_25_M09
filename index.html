@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Script - M04 y M09 DAM01</title>
+    
+    <style>
+        /* --- Variables de Color (Blanco, Negro, Grises) --- */
+        :root {
+            --color-primary: #000000; /* Negro (para texto y encabezado principal) */
+            --color-secondary: #ff8c00; /* Naranja (para resaltar y énfasis) */
+            --color-background: #ffffff; /* Blanco (para el interior de las cards) */
+            --color-text: #1a1a1a; /* Negro suave para el cuerpo del texto */
+            --color-light-gray: #e9e9e9; /* Gris muy claro para bordes y fondos sutiles */
+            --color-dark-gray: #444444; /* Gris oscuro para subtítulos */
+            --color-accent-blue: #2a7aff; /* Azul para tags M04 (diferenciación) */
+        }
+        
+        /* --- Estilos Generales --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Aplicamos el degradado de gris en el fondo */
+            background: linear-gradient(135deg, #f0f0f0 0%, #dcdcdc 100%);
+            color: var(--color-text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--color-primary); /* Enlaces negros por defecto */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-secondary); /* Resaltado naranja al pasar el ratón */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        /* --- Encabezado y Pie de Página --- */
+        .header {
+            background-color: var(--color-primary); /* Fondo negro */
+            color: var(--color-background); /* Texto blanco */
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .header h2 {
+            font-size: 1.2em;
+            font-weight: 300;
+            margin-top: 0;
+            opacity: 0.8;
+        }
+
+        .code-author {
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--color-dark-gray);
+            background-color: var(--color-background);
+            font-size: 0.85em;
+            color: var(--color-dark-gray);
+        }
+
+        .footer a {
+            color: var(--color-text);
+            font-weight: bold;
+        }
+
+        /* --- Estilos de la Card (Article) --- */
+        .work-card {
+            background-color: var(--color-background); /* Interior blanco */
+            border: 1px solid var(--color-light-gray);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 350px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image-placeholder img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: var(--color-background);
+            z-index: 10;
+        }
+
+        .tag-m04 {
+            background-color: var(--color-accent-blue); /* Azul para M04 */
+        }
+
+        .tag-m09 {
+            background-color: var(--color-secondary); /* Naranja para M09 (Énfasis) */
+        }
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            color: var(--color-primary);
+            font-size: 1.5em;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .card-subtitle {
+            color: var(--color-dark-gray);
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .card-description {
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .resource-list {
+            list-style: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .resource-list li {
+            margin-bottom: 5px;
+        }
+
+        .link-highlight {
+            color: var(--color-secondary); /* Naranja para resaltar enlaces importantes */
+            font-weight: 500;
+        }
+
+        .link-highlight:hover {
+            color: var(--color-primary);
+        }
+
+        /* --- Pie de Card --- */
+        .card-footer {
+            border-top: 1px solid var(--color-light-gray);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--color-light-gray); /* Fondo gris claro */
+        }
+
+        .footer-link {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: var(--color-primary);
+            text-transform: uppercase;
+        }
+
+        .footer-link:hover {
+            color: var(--color-secondary);
+        }
+
+        .git-link {
+            color: var(--color-dark-gray);
+        }
+
+        /* --- Media Query para Responsividad --- */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .work-card {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Java Script</h1>
+        <h2>M04 y M09 de DAM01 en el ITB con Alicia Vázquez.</h2>
+        <p class="code-author">Código realizado por Pepe Garcia.</p>
+    </header>
+
+    <main class="container">
+
+        <article class="work-card">
+            <div class="card-image-placeholder">
+                <img src="https://via.placeholder.com/300x150?text=Introduccion+JS" alt="Imagen representativa del tema">
+            </div>
+            
+            <span class="tag tag-m04">M04</span> <div class="card-content">
+                <h3 class="card-title">Tema 1: Introducción y Sintaxis Básica</h3>
+                <p class="card-subtitle">Fundamentos del lenguaje y estructura inicial.</p>
+                <p class="card-description">Este módulo cubre la declaración de variables, tipos de datos, operadores y estructuras de control básicas (if/else, switch, bucles). Es la base para comprender el flujo de ejecución.</p>
+                
+                <ul class="resource-list">
+                    <li><a href="#" class="link-highlight">Ejercicio 1: Calculadora Simple</a></li>
+                    <li><a href="#" class="link-highlight">Ejemplo 2: Validación de Formulario</a></li>
+                    <li><a href="#" class="link-highlight">Apuntes Adicionales sobre Scope</a></li>
+                </ul>
+            </div>
+
+            <footer class="card-footer">
+                <a href="#" class="footer-link">Apuntes de Clase</a>
+                <a href="#" class="footer-link git-link">Repositorio Git</a>
+            </footer>
+        </article>
+        
+        <article class="work-card">
+            <div class="card-image-placeholder">
+                <img src="https://via.placeholder.com/300x150?text=Manipulacion+DOM" alt="Imagen representativa del tema DOM">
+            </div>
+            
+            <span class="tag tag-m09">M09</span> <div class="card-content">
+                <h3 class="card-title">Tema 2: Manipulación del DOM</h3>
+                <p class="card-subtitle">Interacción con la estructura HTML de la página.</p>
+                <p class="card-description">Nos enfocamos en cómo JavaScript puede acceder, modificar y actualizar dinámicamente el contenido, estructura y estilo de la página web (Document Object Model).</p>
+                
+                <ul class="resource-list">
+                    <li><a href="#" class="link-highlight">Ejercicio 3: Galería Interactiva</a></li>
+                    <li><a href="#" class="link-highlight">Ejemplo 4: Añadir Elementos Dinámicamente</a></li>
+                </ul>
+            </div>
+
+            <footer class="card-footer">
+                <a href="#" class="footer-link">Apuntes de Clase</a>
+                <a href="#" class="footer-link git-link">Repositorio Git</a>
+            </footer>
+        </article>
+        
+        </main>
+
+    <footer class="footer">
+        <p>Contacto del Programador: <a href="mailto:pepe.garcia@ejemplo.com" class="link-highlight">Pepe Garcia</a></p>
+        <p>&copy; 2025 CC (Creative Commons)</p>
+    </footer>
+
+</body>
+</html>
